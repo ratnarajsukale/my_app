@@ -3,22 +3,24 @@ class SessionsController < ApplicationController
   end
 
   def create
-     user = User.find_by(email: params[:session][:email].downcase)
-     if user &.authenticate(params[:session][:password])
-      reset_session 
+    user = User.find_by(email: params[:session][:email].downcase)
+    if user&.authenticate(params[:session][:password])
+      forwarding_url = session[:forwarding_url]
+      reset_session
+      params[:session][:remember_me] == "1" ? remember(user) : forget(user)
       log_in user
-      redirect_to user
-      # Log the user in and redirect to the user's show page.
-     else
-        flash.now[:denger] = 'Invalid Email/Password combination '
+      redirect_to forwarding_url || user
+      
+    # Log the user in and redirect to the user's show page.
+    else
+      flash.now[:denger] = "Invalid Email/Password combination "
       # Create an error message.
-      render 'new'
-     end
-  end
-  def destroy
-    def destroy 
-      log_out
-      redirect_to root_url
-     
+      render "new"
     end
+  end
+
+  def destroy
+    log_out if logged_in?
+    redirect_to root_url
+  end
 end

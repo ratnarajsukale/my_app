@@ -8,6 +8,8 @@ gem "rails", "~> 6.1.3", ">= 6.1.3.1"
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server
 gem "puma", "~> 5.0"
+# for microposts image validations
+gem 'active_storage_validations', '0.8.9'
 # Use SCSS for stylesheets
 gem "sass-rails", ">= 6"
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -27,9 +29,11 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 gem 'bootstrap-will_paginate'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
 
+# Use Active Storage variant
+gem 'image_processing', '~> 1.2'
+gem 'mini_magick', '4.9.5'
+gem 'active_storage_validations', '0.8.9'
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
@@ -62,3 +66,8 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # For opening email in development  
 gem "letter_opener", :group => :development
+
+group :production do 
+ gem 'pg'
+ gem 'aws-sdk-s3', '1.87.0', require: false
+end
